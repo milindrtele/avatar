@@ -87,8 +87,12 @@ export default function UsersPage() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      className="bg-slate-800/70 text-white"
+      style={{ height: "100vh", padding: "20px" }}
+    >
       <div
+        className="bg-slate-800/70 w-full p-4 rounded-xl shadow-lg text-white"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -96,7 +100,7 @@ export default function UsersPage() {
           marginBottom: "20px",
         }}
       >
-        <h1>Manage Users</h1>
+        <h1 className="text-xl">Manage Users</h1>
         <button
           onClick={handleLogout}
           style={{
@@ -112,87 +116,103 @@ export default function UsersPage() {
         </button>
       </div>
 
-      <h2>Existing Users</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-              Username
-            </th>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>Role</th>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-              Location
-            </th>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-              Created At
-            </th>
-            <th style={{ border: "1px solid #ccc", padding: "8px" }}>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id || user.username}>
-              <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {user.username}
-              </td>
-              <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {user.role}
-              </td>
-              <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {user.location || "N/A"}
-              </td>
-              <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                {new Date(user.createdAt).toLocaleDateString()}
-              </td>
-              <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                <button onClick={() => handleEditPassword(user._id)}>
-                  Edit Password
-                </button>
-                <button
-                  onClick={() => handleDeleteUser(user._id, user.username)}
+      <div className="bg-slate-600/70 rounded-xl p-4 shadow-lg mb-8">
+        <h2>Existing Users</h2>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                Username
+              </th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Role</th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                Location
+              </th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                Created At
+              </th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id || user.username}>
+                <td
                   style={{
-                    marginLeft: "8px",
-                    backgroundColor: "#ff4444",
-                    color: "white",
+                    border: "1px solid #ccc",
+                    padding: "8px",
+                    justifyContent: "space-between",
                   }}
                 >
-                  Delete User
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  {user.username}
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  {user.role}
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  {user.location || "N/A"}
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  {new Date(user.createdAt).toLocaleDateString()}
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                  <button onClick={() => handleEditPassword(user._id)}>
+                    Edit Password
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(user._id, user.username)}
+                    style={{
+                      marginLeft: "8px",
+                      backgroundColor: "#ff4444",
+                      color: "white",
+                    }}
+                  >
+                    Delete User
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <h2>Add New Device User</h2>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={newUser.username}
-          onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={newUser.password}
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={newUser.location}
-          onChange={(e) => setNewUser({ ...newUser, location: e.target.value })}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "Adding..." : "Add User"}
-        </button>
-      </form>
+      <div>
+        <h2>Add New Device User</h2>
+        <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={newUser.username}
+            onChange={(e) =>
+              setNewUser({ ...newUser, username: e.target.value })
+            }
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={newUser.password}
+            onChange={(e) =>
+              setNewUser({ ...newUser, password: e.target.value })
+            }
+            required
+          />
+          <input
+            type="text"
+            placeholder="Location"
+            value={newUser.location}
+            onChange={(e) =>
+              setNewUser({ ...newUser, location: e.target.value })
+            }
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Add User"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
