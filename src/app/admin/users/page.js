@@ -88,11 +88,11 @@ export default function UsersPage() {
 
   return (
     <div
-      className="bg-slate-800/70 text-white"
-      style={{ height: "100vh", padding: "20px" }}
+      className="bg-slate-800/70 text-white h-[100vh] position-absolute top-0 left-0 overflow-y-auto"
+      style={{ padding: "20px" }}
     >
       <div
-        className="bg-slate-800/70 w-full p-4 rounded-xl shadow-lg text-white"
+        className="bg-slate-800/70 w-full p-4 rounded-xl shadow-lg text-white "
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -100,7 +100,7 @@ export default function UsersPage() {
           marginBottom: "20px",
         }}
       >
-        <h1 className="text-xl">Manage Users</h1>
+        <h1 className="text-3xl">Manage Users</h1>
         <button
           onClick={handleLogout}
           style={{
@@ -111,13 +111,14 @@ export default function UsersPage() {
             borderRadius: "4px",
             cursor: "pointer",
           }}
+          className="transition-all duration-200 hover:scale-105 active:scale-95"
         >
           Logout
         </button>
       </div>
 
-      <div className="bg-slate-600/70 rounded-xl p-4 shadow-lg mb-8">
-        <h2>Existing Users</h2>
+      <div className="bg-slate-600/70 rounded-xl p-8 shadow-lg mb-8 bg-slate-800/60 backdrop-blur-md border border-slate-700 rounded-xl shadow-lg">
+        <h2 className="text-lg font-semibold mb-4">Existing Users</h2>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr>
@@ -138,7 +139,10 @@ export default function UsersPage() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user._id || user.username}>
+              <tr
+                key={user._id || user.username}
+                className="hover:bg-slate-900/40 transition odd:bg-slate-800 even:bg-slate-700/30"
+              >
                 <td
                   style={{
                     border: "1px solid #ccc",
@@ -146,28 +150,46 @@ export default function UsersPage() {
                     justifyContent: "space-between",
                   }}
                 >
-                  {user.username}
+                  <p className="m-auto w-max">{user.username}</p>
+                </td>
+                <td
+                  style={{
+                    border: "1px solid #ccc",
+                    padding: "8px",
+                  }}
+                >
+                  <p className="m-auto w-max">{user.role}</p>
                 </td>
                 <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  {user.role}
+                  <p className="m-auto w-max text-slate-400 (for location/date)">
+                    {user.location || "N/A"}
+                  </p>
                 </td>
                 <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  {user.location || "N/A"}
+                  <p className="m-auto w-max text-slate-400 (for location/date)">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </p>
                 </td>
-                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  {new Date(user.createdAt).toLocaleDateString()}
-                </td>
-                <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                  <button onClick={() => handleEditPassword(user._id)}>
+                <td
+                  style={{
+                    border: "1px solid #ccc",
+                    padding: "8px",
+                  }}
+                  className="flex-col lg:flex-row m-auto flex gap-2 justify-end"
+                >
+                  <button
+                    onClick={() => handleEditPassword(user._id)}
+                    className="m-auto bg-[#007d3e] p-2 rounded text-white bg-emerald-500/90 hover:bg-emerald-600 transition-all duration-200 hover:scale-105 active:scale-95"
+                  >
                     Edit Password
                   </button>
                   <button
                     onClick={() => handleDeleteUser(user._id, user.username)}
-                    style={{
-                      marginLeft: "8px",
-                      backgroundColor: "#ff4444",
-                      color: "white",
-                    }}
+                    className="m-auto bg-[#ff4444] p-2 rounded text-white bg-red-500/90 hover:bg-red-600 transition-all duration-200 hover:scale-105 active:scale-95"
+                    // style={{
+                    //   backgroundColor: "#f96363",
+                    //   color: "white",
+                    // }}
                   >
                     Delete User
                   </button>
@@ -178,9 +200,15 @@ export default function UsersPage() {
         </table>
       </div>
 
-      <div>
-        <h2>Add New Device User</h2>
-        <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+      <div className="bg-slate-500/70 w-full p-8 rounded-xl shadow-lg text-white">
+        <h2 className="text-lg font-semibold m-auto mb-4">
+          Add New Device User
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          style={{ marginBottom: "20px" }}
+          className="w-[50%] flex flex-col lg:flex-row m-auto"
+        >
           <input
             type="text"
             placeholder="Username"
@@ -189,6 +217,11 @@ export default function UsersPage() {
               setNewUser({ ...newUser, username: e.target.value })
             }
             required
+            className="mt-2 mb-2 px-0 lg:px-4 py-3 rounded-xl 
+      bg-slate-800/70 text-white placeholder-gray-400 
+      border border-slate-700 
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+      transition-all duration-200 m-auto disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <input
             type="password"
@@ -198,6 +231,11 @@ export default function UsersPage() {
               setNewUser({ ...newUser, password: e.target.value })
             }
             required
+            className="mt-2 mb-2 px-0 lg:px-4 py-3 rounded-xl 
+      bg-slate-800/70 text-white placeholder-gray-400 
+      border border-slate-700 
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+      transition-all duration-200 m-auto disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <input
             type="text"
@@ -207,8 +245,26 @@ export default function UsersPage() {
               setNewUser({ ...newUser, location: e.target.value })
             }
             required
+            className="mt-2 mb-2 px-0 lg:px-4 py-3 rounded-xl 
+      bg-slate-800/70 text-white placeholder-gray-400 
+      border border-slate-700 
+      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+      transition-all duration-200 m-auto  disabled:opacity-50 disabled:cursor-not-allowed"
           />
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            // style={{
+            //   backgroundColor: "#22a3ff",
+            //   color: "white",
+            //   padding: "8px 16px",
+            //   border: "none",
+            //   borderRadius: "4px",
+            //   cursor: "pointer",
+            //   margin: "0 auto",
+            // }}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md transition transition-all duration-200 hover:scale-105 active:scale-95"
+          >
             {loading ? "Adding..." : "Add User"}
           </button>
         </form>
